@@ -19,6 +19,19 @@ To do so, ***you will refactor this application into a microservice architecture
 * [VirtualBox](https://www.virtualbox.org/) - Hypervisor allowing you to run multiple operating systems
 * [K3s](https://k3s.io/) - Lightweight distribution of K8s to easily develop against a local cluster
 
+
+## Running Development Docker
+While you are in `scripts/` directory
+1. Run
+```
+docker build . -f Dockerfile.dev -t uda-dev
+```
+
+2. and then
+```
+./run-dev-container.sh
+```
+
 ## Running the app
 The project has been set up such that you should be able to have the project up and running with Kubernetes.
 

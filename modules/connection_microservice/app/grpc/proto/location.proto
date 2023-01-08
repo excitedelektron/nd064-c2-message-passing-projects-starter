@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+message LocationRequest {
+  int32 person_id = 1;
+  string start_date = 2;
+  string end_date = 3;
+}
+
+message LocationMessage {
+  string longitude = 1;
+  string latitude = 2;
+  string creation_time = 3;
+  int32 id = 4;
+  int32 person_id = 5;
+}
+
+message LocationsMessage {
+    repeated LocationMessage locations = 1;
+}
+
+service LocationService {
+  rpc GetLocations(LocationRequest) returns (LocationsMessage) {};
+}
