@@ -1,4 +1,5 @@
 ./generate-messages.sh
 
 echo  'running server...'
-python services/main.py
+export PYTHONPATH=$BASEPATH/grpc/messages:$BASEPATH/rest/
+python ./services/main.py
