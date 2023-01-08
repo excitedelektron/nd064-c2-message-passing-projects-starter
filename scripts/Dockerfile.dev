@@ -4,8 +4,12 @@ RUN apk add --no-cache gcc musl-dev linux-headers geos libc-dev postgresql-dev
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-EXPOSE 5000 5001 5002 5003 5004 5005
+EXPOSE 5000 5001 5002 5003 5004 5005 50000 50001 50002 50003 50004 50005
 
 WORKDIR /udacity/nd064-c2-message-passing-projects-starter/modules/person_microservice
+
+ENV BASEPATH /udacity/nd064-c2-message-passing-projects-starter/modules
+ENV PYTHONPATH $BASEPATH/person_microservice/grpc/messages:$BASEPATH/person_microservice/rest/: \
+    $BASEPATH/location_microservice/grpc/messages:$BASEPATH/location_microservice/rest/
 
 CMD [ "/bin/sh" ]
