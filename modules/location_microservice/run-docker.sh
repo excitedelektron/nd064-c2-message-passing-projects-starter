@@ -5,4 +5,4 @@ docker run --rm -ti \
   -e DB_HOST="localhost" \
   -e DB_PORT="5432" \
   -e DB_PASSWORD="wowimsosecure" \
-  uda-connect-location-microservice
+  excitedelektron/uda-connect-location-microservice

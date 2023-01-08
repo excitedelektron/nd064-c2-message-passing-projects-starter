@@ -1,1 +1,1 @@
-docker build . -f Dockerfile -t uda-connect-location-microservice
+docker build . -f Dockerfile -t excitedelektron/uda-connect-location-microservice

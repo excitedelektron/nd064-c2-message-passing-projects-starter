@@ -1,1 +1,1 @@
-docker build . -f Dockerfile -t uda-connect-person-microservice
+docker build . -f Dockerfile -t excitedelektron/uda-connect-person-microservice
