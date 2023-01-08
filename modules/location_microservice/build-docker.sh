@@ -1,0 +1,1 @@
+docker build . -f Dockerfile -t uda-connect-location-microservice
