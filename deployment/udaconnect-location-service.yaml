@@ -64,4 +64,8 @@ spec:
                 configMapKeyRef:
                   name: db-env
                   key: DB_PORT
+            - name: KAFKA_PRODUCER_SERVER
+              value: "kafka-release-0.kafka-release-headless.default.svc.cluster.local:9092"
+            - name: KAFKA_CONSUMER_SERVER
+              value: "kafka-release.default.svc.cluster.local:9092"
       restartPolicy: Always

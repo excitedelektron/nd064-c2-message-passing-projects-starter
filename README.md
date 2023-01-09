@@ -42,6 +42,7 @@ We will be installing the tools that we'll need to use for getting our environme
 3. [Set up `kubectl`](https://rancher.com/docs/rancher/v2.x/en/cluster-admin/cluster-access/kubectl/)
 4. [Install VirtualBox](https://www.virtualbox.org/wiki/Downloads) with at least version 6.0
 5. [Install Vagrant](https://www.vagrantup.com/docs/installation) with at least version 2.0
+6. [Install Helm](https://helm.sh/docs/intro/quickstart/)
 
 ### Environment Setup
 To run the application, you will need a K8s cluster running locally and to interface with it via `kubectl`. We will be using Vagrant with VirtualBox to run K3s.
@@ -89,16 +90,19 @@ Type `exit` to exit the virtual OS and you will find yourself back in your compu
 Afterwards, you can test that `kubectl` works by running a command like `kubectl describe services`. It should not return any errors.
 
 ### Steps
-1. `kubectl apply -f deployment/db-configmap.yaml` - Set up environment variables for the pods
-2. `kubectl apply -f deployment/db-secret.yaml` - Set up secrets for the pods
-3. `kubectl apply -f deployment/postgres.yaml` - Set up a Postgres database running PostGIS
-4. `kubectl apply -f deployment/udaconnect-persons-service.yaml` - Set up the persons service
-5. `kubectl apply -f deployment/udaconnect-location-service.yaml` - Set up the location service
-6. Get the internal IP address for location and person serivce: Since connection service will talk to location and person service via gRPC internally in the cluster, we need to provide IPs of these two services. For that run `kubectl get endpoints` and get IPs and ports for persons and locations service like: ![plot](./readme_assets/endpoints.png). In this example, `10.42.0.61:31001` and `10.42.0.66:30000` are the endpoints of interest.
-7. Update `/deployment/udaconnect-connection-service.yaml` with the new IPs. Update the `PERSONS_SERVICE_ENDPOINT` and `LOCATION_SERVICE_ENDPOINT` variable with the IPs from the step above.
-8. `kubectl apply -f deployment/udaconnect-connection-service.yaml` - Set up the connection service
-9. `kubectl apply -f deployment/udaconnect-app.yaml` - Set up the service and deployment for the web app
-10. `sh scripts/run_db_command.sh <POD_NAME>` - Seed your database against the `postgres` pod. (`kubectl get pods` will give you the `POD_NAME`)
+1. Install Kafka helm chart using
+   1. `helm repo add bitnami https://charts.bitnami.com/bitnami`
+   2. `helm install kafka-release bitnami/kafka`
+2. `kubectl apply -f deployment/db-configmap.yaml` - Set up environment variables for the pods
+3. `kubectl apply -f deployment/db-secret.yaml` - Set up secrets for the pods
+4. `kubectl apply -f deployment/postgres.yaml` - Set up a Postgres database running PostGIS
+5. `kubectl apply -f deployment/udaconnect-persons-service.yaml` - Set up the persons service
+6. `kubectl apply -f deployment/udaconnect-location-service.yaml` - Set up the location service
+7. Get the internal IP address for location and person serivce: Since connection service will talk to location and person service via gRPC internally in the cluster, we need to provide IPs of these two services. For that run `kubectl get endpoints` and get IPs and ports for persons and locations service like: ![plot](./readme_assets/endpoints.png). In this example, `10.42.0.61:31001` and `10.42.0.66:30000` are the endpoints of interest.
+8. Update `/deployment/udaconnect-connection-service.yaml` with the new IPs. Update the `PERSONS_SERVICE_ENDPOINT` and `LOCATION_SERVICE_ENDPOINT` variable with the IPs from the step above.
+9.  `kubectl apply -f deployment/udaconnect-connection-service.yaml` - Set up the connection service
+10. `kubectl apply -f deployment/udaconnect-app.yaml` - Set up the service and deployment for the web app
+11. `sh scripts/run_db_command.sh <POD_NAME>` - Seed your database against the `postgres` pod. (`kubectl get pods` will give you the `POD_NAME`)
 
 Note: The first time you run this project, you will need to seed the database with dummy data. Use the command `sh scripts/run_db_command.sh <POD_NAME>` against the `postgres` pod. (`kubectl get pods` will give you the `POD_NAME`). Subsequent runs of `kubectl apply` for making changes to deployments or services shouldn't require you to seed the database again!
 

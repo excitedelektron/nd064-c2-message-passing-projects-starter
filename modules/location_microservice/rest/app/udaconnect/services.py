@@ -1,6 +1,8 @@
 import logging
 from typing import Dict, List
+import json
 
+from app import g
 from app import db
 from app.udaconnect.models import Location
 from app.udaconnect.schemas import LocationSchema
@@ -35,6 +37,12 @@ class LocationService:
         new_location.person_id = location["person_id"]
         new_location.creation_time = location["creation_time"]
         new_location.coordinate = ST_Point(location["latitude"], location["longitude"])
+
+        kafka_data = json.dumps(location).encode()
+        kafka_producer = g.kafka_producer
+        kafka_producer.send("Locations", kafka_data)
+
+        # just for the purpose of creating a valid response
         db.session.add(new_location)
         db.session.commit()
 
