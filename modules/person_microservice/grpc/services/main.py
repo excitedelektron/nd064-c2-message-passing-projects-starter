@@ -46,7 +46,7 @@ class PersonServicer(person_pb2_grpc.PersonServiceServicer):
 server = grpc.server(futures.ThreadPoolExecutor(max_workers=2))
 person_pb2_grpc.add_PersonServiceServicer_to_server(PersonServicer(), server)
 
-port = 50000
+port = 31000
 print("Server starting on port", port)
 server.add_insecure_port("[::]:" + str(port))
 server.start()

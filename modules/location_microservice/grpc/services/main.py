@@ -58,7 +58,7 @@ class LocationServicer(location_pb2_grpc.LocationServiceServicer):
 server = grpc.server(futures.ThreadPoolExecutor(max_workers=2))
 location_pb2_grpc.add_LocationServiceServicer_to_server(LocationServicer(), server)
 
-port = 50001
+port = 31001
 print("Server starting on port", port)
 server.add_insecure_port("[::]:" + str(port))
 server.start()

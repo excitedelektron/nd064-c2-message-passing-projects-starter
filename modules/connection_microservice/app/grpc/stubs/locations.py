@@ -1,10 +1,12 @@
+import os
 import grpc
 import location_pb2
 import location_pb2_grpc
 
 
 def getLocations(person_id, start_date, end_date):
-    channel = grpc.insecure_channel("localhost:50001")
+    endpoint = os.getenv("LOCATION_SERVICE_ENDPOINT", "localhost:31001")
+    channel = grpc.insecure_channel(endpoint)
     stub = location_pb2_grpc.LocationServiceStub(channel)
 
     response = stub.GetLocations(
