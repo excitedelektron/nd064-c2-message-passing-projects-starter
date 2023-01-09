@@ -92,11 +92,13 @@ Afterwards, you can test that `kubectl` works by running a command like `kubectl
 1. `kubectl apply -f deployment/db-configmap.yaml` - Set up environment variables for the pods
 2. `kubectl apply -f deployment/db-secret.yaml` - Set up secrets for the pods
 3. `kubectl apply -f deployment/postgres.yaml` - Set up a Postgres database running PostGIS
-4. `kubectl apply -f deployment/udaconnect-api.yaml` - Set up the service and deployment for the API
-5. `kubectl apply -f deployment/udaconnect-app.yaml` - Set up the service and deployment for the web app
-6. `sh scripts/run_db_command.sh <POD_NAME>` - Seed your database against the `postgres` pod. (`kubectl get pods` will give you the `POD_NAME`)
-
-Manually applying each of the individual `yaml` files is cumbersome but going through each step provides some context on the content of the starter project. In practice, we would have reduced the number of steps by running the command against a directory to apply of the contents: `kubectl apply -f deployment/`.
+4. `kubectl apply -f deployment/udaconnect-persons-service.yaml` - Set up the persons service
+5. `kubectl apply -f deployment/udaconnect-location-service.yaml` - Set up the location service
+6. Get the internal IP address for location and person serivce: Since connection service will talk to location and person service via gRPC internally in the cluster, we need to provide IPs of these two services. For that run `kubectl get endpoints` and get IPs and ports for persons and locations service like: ![plot](./readme_assets/endpoints.png). In this example, `10.42.0.61:31001` and `10.42.0.66:30000` are the endpoints of interest.
+7. Update `/deployment/udaconnect-connection-service.yaml` with the new IPs. Update the `PERSONS_SERVICE_ENDPOINT` and `LOCATION_SERVICE_ENDPOINT` variable with the IPs from the step above.
+8. `kubectl apply -f deployment/udaconnect-connection-service.yaml` - Set up the connection service
+9. `kubectl apply -f deployment/udaconnect-app.yaml` - Set up the service and deployment for the web app
+10. `sh scripts/run_db_command.sh <POD_NAME>` - Seed your database against the `postgres` pod. (`kubectl get pods` will give you the `POD_NAME`)
 
 Note: The first time you run this project, you will need to seed the database with dummy data. Use the command `sh scripts/run_db_command.sh <POD_NAME>` against the `postgres` pod. (`kubectl get pods` will give you the `POD_NAME`). Subsequent runs of `kubectl apply` for making changes to deployments or services shouldn't require you to seed the database again!
 
@@ -106,9 +108,10 @@ Once the project is up and running, you should be able to see 3 deployments and 
 
 
 These pages should also load on your web browser:
-* `http://localhost:30001/` - OpenAPI Documentation
-* `http://localhost:30001/api/` - Base path for API
-* `http://localhost:30000/` - Frontend ReactJS Application
+* `http://localhost:30000/` - Persons microservice API documentation
+* `http://localhost:30001/` - Locations microservice API documentation
+* `http://localhost:30002/` - Connections microservice API documentation
+* `http://localhost:30009/` - Frontend ReactJS Application
 
 #### Deployment Note
 You may notice the odd port numbers being served to `localhost`. [By default, Kubernetes services are only exposed to one another in an internal network](https://kubernetes.io/docs/concepts/services-networking/service/). This means that `udaconnect-app` and `udaconnect-api` can talk to one another. For us to connect to the cluster as an "outsider", we need to a way to expose these services to `localhost`.
