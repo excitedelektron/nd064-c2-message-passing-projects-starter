@@ -1,0 +1,186 @@
+{
+	"info": {
+		"_postman_id": "7cdd1897-3da9-412c-8cb1-85e501edda09",
+		"name": "udaconnect",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "persons_microservice",
+			"item": [
+				{
+					"name": "Get all persons",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:30000/api/persons",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "30000",
+							"path": [
+								"api",
+								"persons"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single Person",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{persons_port}}/api/persons/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{persons_port}}",
+							"path": [
+								"api",
+								"persons",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Person",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"last_name\": \"Test\",\n    \"company_name\": \"Test company\",\n    \"first_name\": \"Taco\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{persons_port}}/api/persons",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{persons_port}}",
+							"path": [
+								"api",
+								"persons"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "location_microservice",
+			"item": [
+				{
+					"name": "Get Single Locations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5001/api/locations/33",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"locations",
+								"33"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Single Location",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"creation_time\": \"2020-08-19T10:37:06\",\n    \"latitude\": \"-122.290521\",\n    \"person_id\": 1,\n    \"longitude\": \"37.553451\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{locations_port}}/api/locations",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{locations_port}}",
+							"path": [
+								"api",
+								"locations"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "connections_microservice",
+			"item": [
+				{
+					"name": "Get Conncetions for a Person",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "persons_port",
+			"value": "5000"
+		},
+		{
+			"key": "locations_port",
+			"value": "5001"
+		},
+		{
+			"key": "connections_port",
+			"value": "5002"
+		}
+	]
+}

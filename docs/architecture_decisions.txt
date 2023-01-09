@@ -1,0 +1,12 @@
+## Person Service (REST Api and gRPC Api):
+Person service is arguably most simple and straight-forward service. It simply fetches data from the database and presents it to the user. It does not depend on any other service. The operations exposed by the API are not compute-intensive.
+Since person service will be used by both external services (front-end) as well as internal services (connection service), I have decided to expose both kind of Apis providing flexibility and familiarity of REST Api for the external users while giving efficiency and accuracy of the gRPC Api to the internal services.
+
+## Connection Service (REST Api with connection to other services via gRPC):
+Connection service has probably the most compute-intensive service with an operation which depends on data from both location service as well as the person service. Service contains locations queries which can take long time and hence, I have decided to connect it to other services via internal gRPC endpoints instead of external REST endpoints.
+gRPC endpoints provide more efficient data transfer and stricter validations.
+
+## Location Service (REST Api, Kafka and gRPC Api):
+Location service is also relatively simple service which retrieves data from the database and allows the api users to create new location data in the database.
+Since we expect a lots of calls to log locations thousands of time, I have added a Kafka queue behind the REST endpoint so that the location is pushed into the queue and returned immediately. A separate service then consumes the queue and inserts this data into database.
+Since location service will be used by both external services (mobile devices) as well as internal services (connection service), I have decided to expose both kind of Apis providing flexibility and familiarity of REST Api for the external users while giving efficiency and accuracy of the gRPC Api to the internal services.

@@ -1,0 +1,17 @@
+# Person Service
+## GetPersons
+Listening on port 31000
+Expects: nothing
+Returns: PersonsMessage (list of persons)
+
+How to test:
+Please see example at: /modules/person_microservice/grpc/test/test.py
+
+# Location Service
+## GetLocations
+Listening on port 31001
+Expects: LocationMessage
+Returns: LocationsMessage
+
+How to test:
+Please see example at: /modules/location_microservice/grpc/test/test.py
