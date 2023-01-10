@@ -1,11 +1,11 @@
+import config from '../config'
 import React, { Component } from "react";
 import Connection from "./Connection";
 
 class Persons extends Component {
   constructor(props) {
     super(props);
-    // TODO: endpoint should be abstracted into a config variable
-    this.endpoint_url = "http://localhost:30000/api/persons";
+    this.endpoint_url = `${config.personsEndPointBase}/persons`;
     this.state = {
       persons: [],
       display: null,

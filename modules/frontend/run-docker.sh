@@ -1,5 +1,6 @@
 docker run --rm -ti \
   --network host \
+  --entrypoint=/bin/sh \
   -e DB_USERNAME="ct_admin" \
   -e DB_NAME="geoconnections" \
   -e DB_HOST="localhost" \
